@@ -56,22 +56,27 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 
-let channel = socket.channel("room:lobby", {})
-let chatInput = document.querySelector("input#message")
+let path = window.location.pathname.split("/")
+let roomID = path[path.length - 1]
+let channel = socket.channel("room:" + roomID, {})
+let chatForm = document.querySelector("form#chatForm")
+let usernameInput = document.querySelector("input#username")
+let messageInput = document.querySelector("input#message")
 let messagesOutput = document.querySelector("#message_output")
 
-if (chatInput) {
-  chatInput.addEventListener("keypress", event => {
-    if(event.key == "Enter") {
-      event.preventDefault()
-      channel.push("new_message", {body: chatInput.value})
-      chatInput.value = ""
+if (chatForm) {
+  chatForm.addEventListener("submit", event => {
+    event.preventDefault()
+    if (messageInput.value.length) {
+      let username = usernameInput.value || "Guest"
+      channel.push("new_message", {name: username, body: messageInput.value})
+      messageInput.value = ""
     }
   })
 
   channel.on("new_message", payload => {
     let messageElement = document.createElement("p")
-    messageElement.innerText = payload.body
+    messageElement.innerHTML = `<strong>${payload.name}</strong>: ${payload.body}`
     messagesOutput.appendChild(messageElement)
     messagesOutput.scrollTop = messagesOutput.scrollHeight
   })

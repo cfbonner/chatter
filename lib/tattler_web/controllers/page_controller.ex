@@ -5,7 +5,7 @@ defmodule TattlerWeb.PageController do
     render(conn, "index.html")
   end
 
-  def show(conn, _params) do
-    render(conn, "show.html")
+  def show(conn, %{"id" => room}) do
+    render(conn, "show.html", room: room)
   end
 end

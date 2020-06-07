@@ -17,13 +17,15 @@ defmodule TattlerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/chat", PageController, only: [:show]
     resources "/users", UserController
     resources "/session", SessionController, only: [:new, :create, :delete],
                                              singleton: true
   end
 
   scope "/chat", TattlerWeb do
-    pipe_through [:browser, :authenticate_user]
+    # pipe_through [:browser, :authenticate_user, :put_user_token]
+    pipe_through :browser
     get "/", PageController, :show
   end
 
@@ -36,6 +38,15 @@ defmodule TattlerWeb.Router do
         |> halt()
       user_id ->
         assign(conn, :current_user, Tattler.Accounts.get_user!(user_id))
+    end
+  end
+
+  defp put_user_token(conn, _) do
+    if current_user = conn.assigns[:current_user] do
+      token = Phoenix.Token.sign(conn, "user socket", current_user.id)
+      assign(conn, :user_token, token)
+    else
+      conn
     end
   end
 
