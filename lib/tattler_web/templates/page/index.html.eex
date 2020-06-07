@@ -1,0 +1,14 @@
+<section class="row">
+  <article class="column">
+    <div role="log" aria-live="polite" class="chat_container" id="message_output">
+      <h1>Welcome to Tattler.</h1>
+      <p><a href="/session/new">Log in</a> or <a href="/users/new">sign up</a> to join in a conversation</p>
+    </div>
+    <form>
+      <div class="form-group disabled">
+        <label for="fake_message">Message</label>
+        <input id="fake_message" disabled="true" type="text"/>
+      </div>
+    </form>
+  </article>
+</section>

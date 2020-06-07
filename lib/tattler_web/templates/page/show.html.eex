@@ -1,0 +1,11 @@
+<section class="row">
+  <article class="column">
+    <div role="log" aria-live="polite" class="chat_container" id="message_output"></div>
+    <form>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <input id="message" type="text"/>
+      </div>
+    </form>
+  </article>
+</section>
