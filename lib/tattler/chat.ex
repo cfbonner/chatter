@@ -6,7 +6,7 @@ defmodule Tattler.Chat do
   import Ecto.Query, warn: false
   alias Tattler.Repo
 
-  alias Tattler.Chat.Room
+  alias Tattler.Chat.{Room, Message}
 
   @doc """
   Returns the list of rooms.
@@ -39,8 +39,16 @@ defmodule Tattler.Chat do
 
   def get_room(friendly_id) do
     Room
-    |> Repo.get_by(friendly_id: friendly_id)
+    |> Repo.get_by!(friendly_id: friendly_id)
     |> Repo.preload(:messages)
+  end
+
+  def find_or_create_room(friendly_id) do
+    room = get_room(friendly_id)
+    {:ok, room}
+  rescue 
+    Ecto.NoResultsError ->
+    {:ok, room} = create_room(%{friendly_id: friendly_id})
   end
 
   @doc """

@@ -8,11 +8,7 @@ defmodule TattlerWeb.PageController do
   end
 
   def show(conn, %{"id" => room_id}) do
-    room = 
-      case Chat.get_room(room_id) do
-        nil -> Chat.create_room(%{friendly_id: room_id})
-        chat_room -> chat_room
-      end
+    {:ok, room} = Chat.find_or_create_room(room_id)
     render(conn, "show.html", room: room)
   end
 end
