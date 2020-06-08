@@ -13,7 +13,7 @@ defmodule Tattler.Chat.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:name, :body])
+    |> cast(attrs, [:name, :body, :room_id])
     |> validate_required([:name, :body])
   end
 end
