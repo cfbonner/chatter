@@ -37,6 +37,12 @@ defmodule Tattler.Chat do
   """
   def get_room!(id), do: Repo.get!(Room, id)
 
+  def get_room(friendly_id) do
+    Room
+    |> Repo.get_by(friendly_id: friendly_id)
+    |> Repo.preload(:messages)
+  end
+
   @doc """
   Creates a room.
 

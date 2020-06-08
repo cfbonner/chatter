@@ -1,9 +1,11 @@
 defmodule Tattler.Chat.Room do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Tattler.Chat.Message
 
   schema "rooms" do
     field :friendly_id, :string
+    has_many :messages, Message
 
     timestamps()
   end

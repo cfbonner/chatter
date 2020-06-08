@@ -55,21 +55,24 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-
-let path = window.location.pathname.split("/")
-let roomID = path[path.length - 1]
-let channel = socket.channel("room:" + roomID, {})
+let roomName = document.querySelector("input#room").value
+let roomID = document.querySelector("input#room_id").value
 let chatForm = document.querySelector("form#chatForm")
 let usernameInput = document.querySelector("input#username")
 let messageInput = document.querySelector("input#message")
 let messagesOutput = document.querySelector("#message_output")
+
+let channel = socket.channel("room:" + roomName, {})
 
 if (chatForm) {
   chatForm.addEventListener("submit", event => {
     event.preventDefault()
     if (messageInput.value.length) {
       let username = usernameInput.value || "Guest"
-      channel.push("new_message", {name: username, body: messageInput.value})
+      channel.push(
+	"new_message", 
+	{room_id: roomID, name: username, body: messageInput.value}
+      )
       messageInput.value = ""
     }
   })

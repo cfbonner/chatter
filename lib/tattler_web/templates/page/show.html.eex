@@ -1,6 +1,10 @@
 <section class="row">
   <article class="column">
-    <div role="log" aria-live="polite" class="chat_container" id="message_output"></div>
+    <div role="log" aria-live="polite" class="chat_container" id="message_output">
+      <%= for message <- @room.messages do %>
+        <p><strong><%= message.name %></strong>: <%= message.body %></p>
+      <% end %>
+    </div>
     <form id="chatForm">
       <div class="form-group">
         <label for="username">Name</label>
@@ -10,7 +14,13 @@
         <label for="message">Message</label>
         <input id="message" type="text"/>
       </div>
+      <input id="room" type="hidden" value="<%= @room.friendly_id %>"/>
+      <input id="room_id" type="hidden" value="<%= @room.id %>"/>
       <input type="submit" value="Send"/>
     </form>
   </article>
 </section>
+
+<template id="messageTemplate">
+  <p><strong>NAME</strong>: MESSAGE</p>
+</template>
