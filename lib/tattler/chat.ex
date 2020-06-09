@@ -66,6 +66,7 @@ defmodule Tattler.Chat do
   def create_room(attrs \\ %{}) do
     %Room{}
     |> Room.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:messages, [])
     |> Repo.insert()
   end
 

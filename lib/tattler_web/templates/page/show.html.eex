@@ -2,10 +2,8 @@
   <article class="column">
     <label for="message_output">Chat</label>
     <div role="log" aria-live="polite" class="chat_container" id="message_output">
-      <% if Ecto.assoc_loaded?(@room.messages) do %>
       <%= for message <- @room.messages do %>
         <p><strong><%= message.name %></strong>: <%= message.body %></p>
-      <% end %>
       <% end %>
     </div>
     <form id="chatForm">
