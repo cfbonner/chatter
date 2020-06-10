@@ -17,7 +17,7 @@
       </div>
       <input id="room" type="hidden" value="<%= @room.friendly_id %>"/>
       <input id="room_id" type="hidden" value="<%= @room.id %>"/>
-      <input type="submit" value="Send"/>
+      <input class="btn btn-default btn-block" type="submit" value="Send"/>
     </form>
   </article>
 </section>

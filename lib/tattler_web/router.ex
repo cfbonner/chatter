@@ -18,7 +18,7 @@ defmodule TattlerWeb.Router do
 
     get "/", PageController, :index
     resources "/chat", PageController, only: [:show]
-    resources "/users", UserController
+    resources "/users", UserController, only: [:new, :create]
     resources "/session", SessionController, only: [:new, :create, :delete],
                                              singleton: true
   end
