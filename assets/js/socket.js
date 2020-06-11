@@ -6,7 +6,7 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {Socket, Presence} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
@@ -52,7 +52,9 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //     end
 //
 // Finally, connect to the socket:
-socket.connect()
+
+
+
 
 // Now that you are connected, you can join channels with a topic:
 let roomName = document.querySelector("input#room").value
@@ -61,8 +63,24 @@ let chatForm = document.querySelector("form#chatForm")
 let usernameInput = document.querySelector("input#username")
 let messageInput = document.querySelector("input#message")
 let messagesOutput = document.querySelector("#message_output")
+let usersOutput = document.querySelector("#users_output")
 
 let channel = socket.channel("room:" + roomName, {})
+let presence = new Presence(channel)
+
+function renderOnlineUsers(presence) {
+  let response = ""
+  presence.list((id, {metas: [first, ...rest]}) => {
+    let count = rest.length + 1
+    if (count == 1) {
+      response += `<br>You're the only one here. Maybe you should invite someone?</br>`
+    } else if (count > 1) {
+      response += `<br>There are ${count} instances connected to this room</br>`
+    }
+  })
+
+  usersOutput.innerHTML = response
+}
 
 if (chatForm) {
   chatForm.addEventListener("submit", event => {
@@ -84,6 +102,10 @@ if (chatForm) {
     messagesOutput.scrollTop = messagesOutput.scrollHeight
   })
 }
+
+socket.connect()
+
+presence.onSync(() => renderOnlineUsers(presence))
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })

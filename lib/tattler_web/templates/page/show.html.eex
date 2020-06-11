@@ -21,6 +21,10 @@
     </form>
   </article>
 </section>
+<section class="row">
+  <div id="users_output">
+  </div>
+</section>
 
 <template id="messageTemplate">
   <p><strong>NAME</strong>: MESSAGE</p>

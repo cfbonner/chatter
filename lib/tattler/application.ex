@@ -14,9 +14,10 @@ defmodule Tattler.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Tattler.PubSub},
       # Start the Endpoint (http/https)
-      TattlerWeb.Endpoint
+      TattlerWeb.Endpoint,
       # Start a worker by calling: Tattler.Worker.start_link(arg)
       # {Tattler.Worker, arg}
+      TattlerWeb.Presence,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
